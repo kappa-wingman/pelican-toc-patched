@@ -66,7 +66,13 @@ class HtmlTreeNode(object):
             new_string = "".join(new_string)
 
         if not new_id:
-            new_id = slugify(new_string, ())
+            # This could gen id with spaces
+            #new_id = slugify(new_string, ())
+            # Also use this plugin with htmlsanity
+            # This could gen duplicated id (single word) for section tag and a tag
+            #new_id = slugify(new_string, ()).replace(" ", "_")
+            # Prefix an id so that the id for section tag and a tag would be different
+            new_id = "heading_" + slugify(new_string, ()).replace(" ", "_")
 
         new_id = unique(new_id, ids)  # make sure id is unique
         new_header.attrs['id'] = new_id
